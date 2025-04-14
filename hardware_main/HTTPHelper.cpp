@@ -7,7 +7,7 @@ bool kirimPesanKeServer(const char* serverURL, const String& pesan) {
   http.begin(serverURL);
   http.addHeader("Content-Type", "application/x-www-form-urlencoded");
 
-  String httpRequestData = "pesan=" + pesan;
+  String httpRequestData = "data=" + pesan;
   int httpResponseCode = http.POST(httpRequestData);
 
   if (httpResponseCode > 0) {

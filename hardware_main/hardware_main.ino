@@ -2,9 +2,9 @@
 #include "WifiHelper.h"
 #include "HTTPHelper.h"
 
-const char* SSID = "";
-const char* PASSWORD = "";
-const char* SERVER_URL = "";
+const char* SSID = "rayawifi";
+const char* PASSWORD = "dotdotdotdot";
+const char* SERVER_URL = "http://192.168.1.7:8000/api/data/save";
 
 WiFiHelper wifi(SSID, PASSWORD);
 
@@ -14,7 +14,7 @@ void setup() {
 
   wifi.connect();
   if (wifi.isConnected()) {
-    if (wifi.testInternetConnection("", 8000)) {
+    if (wifi.testInternetConnection("192.168.1.7", 8000)) {
       Serial.println("Terhubung ke Server");
       bool sukses = kirimPesanKeServer(SERVER_URL, "Halo dari ESP32!");
       if (sukses) {

@@ -1,8 +1,6 @@
 <?php
 
-use App\Http\Controllers\TeksController;
-use Illuminate\Http\Client\Request;
-use Illuminate\Support\Facades\Log;
+use App\Http\Controllers\DataController;
 use Illuminate\Support\Facades\Route;
 use Telegram\Bot\Laravel\Facades\Telegram;
 
@@ -26,5 +24,3 @@ Route::get('/get-updates', function () {
     $updates = Telegram::getUpdates();
     return $updates;
 });
-
-Route::post('/kirim-teks', [TeksController::class, 'receiveMessage']);

@@ -11,9 +11,9 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('pesans', function (Blueprint $table) {
+        Schema::create('Data', function (Blueprint $table) {
             $table->id();
-            $table->text('isi');
+            $table->text('data');
             $table->timestamps();
         });
     }
