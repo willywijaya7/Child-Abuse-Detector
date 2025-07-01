@@ -1,0 +1,23 @@
+{
+    "timestamp" : "YYYY-MM-DD-HH-MM-SS",
+    "max30100" : {
+        "heartrate" : 93.3 ,
+        "spO2" : 97
+    },
+    "mpu6050" :{
+        "gyroscope":{
+            "x": 0.09,
+            "y": 0.05,
+            "z": 0.04
+        },
+        "accelerometer":{
+            "x": 0.09,
+            "y": 0.05,
+            "z": 0.04
+        }
+    },
+    "gt-u7": {
+        "longitude" : 0.1,
+        "latitude" : 0.9
+    }
+}
