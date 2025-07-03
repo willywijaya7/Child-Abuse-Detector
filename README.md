@@ -65,3 +65,19 @@ Jika kamu ingin menguji data yang akan diterima, kamu bisa menguji pada end poin
 
 ### 4. Menjalankan Aplikasi Mobile
 Silahkan melakukan download pada aplikasi `Expo Go` di Playstore / AppStore pada handphone!
+```
+cd mobile
+```
+install dependensi yang dibutuhkan
+```
+npm install
+```
+Kemudian jangan lupa mengganti `const API_URL` dalam file `mobile\app\index.tsx` dengan format sebagai berikut
+```
+const API_URL = 'https://<ngrok-or-backend-url>/datas/';
+```
+Kemudian jalan aplikasi dengan mengetik command sebagai berikut
+```
+npx expo start
+```
+Melalui hal itu, anda dapat memperoleh QR Code. Silahkan melakukan QR Code melalui aplikasi `Expo Go`
