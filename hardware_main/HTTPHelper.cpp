@@ -5,10 +5,9 @@
 bool kirimPesanKeServer(const char* serverURL, const String& pesan) {
   HTTPClient http;
   http.begin(serverURL);
-  http.addHeader("Content-Type", "application/x-www-form-urlencoded");
+  http.addHeader("Content-Type", "application/json");
 
-  String httpRequestData = "data=" + pesan;
-  int httpResponseCode = http.POST(httpRequestData);
+  int httpResponseCode = http.POST(pesan);
 
   if (httpResponseCode > 0) {
       Serial.print("Response: ");

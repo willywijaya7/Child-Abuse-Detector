@@ -1,22 +1,26 @@
 #include <Arduino.h>
+#include "Configuration.h"
 #include "WifiHelper.h"
 #include "HTTPHelper.h"
-
-const char* SSID = "rayawifi";
-const char* PASSWORD = "dotdotdotdot";
-const char* SERVER_URL = "http://192.168.1.7:8000/api/data/save";
+#include "generateSensorDataToJson.h"
 
 WiFiHelper wifi(SSID, PASSWORD);
 
 void setup() {
-  Serial.begin(115200);
+  Serial.begin(115200); 
   delay(1000);
-
+  const String& PESAN = generateSensorDataToJson(
+    "2025-07-07-14-00-00", // timestamp
+    93.3, 97,              // HR, SpO2
+    0.09, 0.05, 0.04,      // Gyro X, Y, Z
+    0.09, 0.05, 0.04,      // Accel X, Y, Z
+    110.123456, -7.123456  // GPS lon, lat
+  );
   wifi.connect();
   if (wifi.isConnected()) {
-    if (wifi.testInternetConnection("192.168.1.7", 8000)) {
+    if (wifi.testInternetConnection("https://5c95-203-24-50-227.ngrok-free.app", 443)) {
       Serial.println("Terhubung ke Server");
-      bool sukses = kirimPesanKeServer(SERVER_URL, "Halo dari ESP32!");
+      bool sukses = kirimPesanKeServer(SERVER_URL, PESAN);
       if (sukses) {
         Serial.println("Pesan berhasil dikirim.");
       } else {
@@ -29,5 +33,9 @@ void setup() {
 
 }
 
-void loop() {
+void loop() 
+{
+
 }
+
+

@@ -4,7 +4,7 @@ import { StyleSheet, View, Text } from 'react-native';
 import MapView, { Region, PROVIDER_GOOGLE , Marker} from 'react-native-maps';
 import { SensorData } from './types/SensorData'; 
 
-const API_URL = 'https://d5e5-203-24-50-227.ngrok-free.app/datas';
+const API_URL = 'https://ae0d-203-24-50-227.ngrok-free.app/datas/';
 
 const INITIAL_REGION: Region = {
   latitude: 0.0,
