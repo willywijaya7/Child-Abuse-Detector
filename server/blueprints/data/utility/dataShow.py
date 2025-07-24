@@ -12,23 +12,13 @@ def dataShow():
                 "heartrate" : data[1] ,
                 "spO2" : data[2]
             },
-            "mpu6050" :{
-                "gyroscope":{
-                    "x": data[3],
-                    "y": data[4],
-                    "z": data[5]
-                },
-                "accelerometer":{
-                    "x": data[6],
-                    "y": data[7],
-                    "z": data[8]
-                }
-            },
             "gt-u7": {
-                "longitude" : data[9],
-                "latitude" : data[10]
-            }
-        }
+                "longitude" : data[3],
+                "latitude" : data[4]
+            },
+            "classification" : data[5]
+        },
+        indent=4
     )
 
 if __name__ == "__main__":

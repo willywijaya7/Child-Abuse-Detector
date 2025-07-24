@@ -1,14 +1,9 @@
 from pydantic import BaseModel
+from typing import List
 
 class dataValidator(BaseModel):
-    timestamp   :str
     heartrate   :float
     spO2        :float
-    gyroX       :float
-    gyroY       :float
-    gyroZ       :float
-    acceX       :float
-    acceY       :float
-    acceZ       :float
+    mpu6050     :List[float]
     longitude   :float 
     latitude    :float

@@ -1,25 +1,26 @@
-from flask import request,json,jsonify
+from flask import request,jsonify
 from pydantic import ValidationError
 from blueprints.data.utility.dataValidator import dataValidator
+from datetime import datetime
+import pytz
 
 def dataReceive():
     try:
         dataJson=request.get_json()
+        utcTime = datetime.now(pytz.utc)
+        timestamp = utcTime.astimezone(pytz.timezone("Asia/Jakarta")).isoformat()
+        # TAMBAHKAN CODINGAN UNTUK HANDLE
         validated = dataValidator(
-            timestamp=dataJson['timestamp'],
             heartrate=dataJson['max30100']['heartrate'],
             spO2=dataJson['max30100']['spO2'],
-            gyroX= dataJson['mpu6050']['gyroscope']['x'],
-            gyroY= dataJson['mpu6050']['gyroscope']['y'],
-            gyroZ= dataJson['mpu6050']['gyroscope']['z'],
-            acceX= dataJson['mpu6050']['accelerometer']['x'],
-            acceY= dataJson['mpu6050']['accelerometer']['y'],
-            acceZ= dataJson['mpu6050']['accelerometer']['z'],
+            mpu6050=dataJson['mpu6050'],
             longitude=dataJson['gt-u7']['longitude'],
             latitude=dataJson['gt-u7']['latitude']
         )
         with open ("blueprints/data/storage/file.txt", "a") as file:
-            file.write(f"{validated.timestamp},{validated.heartrate},{validated.spO2},{validated.gyroX},{validated.gyroY},{validated.gyroZ},{validated.acceX},{validated.acceY},{validated.acceZ},{validated.longitude},{validated.latitude}\n")
+            file.write(f"{timestamp},{validated.heartrate},{validated.longitude},{validated.latitude}\n")
+        with open ("blueprints/data/storage/file2.txt", "a") as file:
+            file.write(f"{validated.mpu6050}\n")
         return jsonify({
             "status" : "success",
         }),200
