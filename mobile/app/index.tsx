@@ -1,10 +1,8 @@
-import axios from 'axios';
-import React, { useEffect, useRef, useState} from 'react';
+import React, { useEffect, useRef } from 'react';
 import { StyleSheet, View, Text } from 'react-native';
-import MapView, { Region, PROVIDER_GOOGLE , Marker} from 'react-native-maps';
-import { SensorData } from './types/SensorData'; 
-
-const API_URL = 'https://ae0d-203-24-50-227.ngrok-free.app/datas/';
+import MapView, { Region, PROVIDER_GOOGLE, Marker } from 'react-native-maps';
+import { useSensorData } from './hooks/useSensorData';
+import { initNotificationHandler } from './services/notification';
 
 const INITIAL_REGION: Region = {
   latitude: 0.0,
@@ -14,35 +12,13 @@ const INITIAL_REGION: Region = {
 };
 
 export default function App() {
-  const [data, setData] = useState<SensorData | null>(null);
+  const data = useSensorData();
   const mapRef = useRef<MapView>(null);
 
-  // Fetch data from Flask backend
   useEffect(() => {
-    fetchData();
-    const interval = setInterval(fetchData, 1000);
-    return () => clearInterval(interval);
+    initNotificationHandler();
   }, []);
 
-  const fetchData = async () => {
-    try {
-      const response = await axios.get(API_URL);
-      const resData = response.data;
-
-      const convertedData: SensorData = {
-        ...resData,
-        'gt-u7': {
-          latitude: parseFloat(resData['gt-u7'].latitude),
-          longitude: parseFloat(resData['gt-u7'].longitude),
-        },
-      };
-      setData(convertedData);
-    } catch (error) {
-      console.error('Error fetching data:', error);
-    }
-  };
-
-  // Animate map to new data when it changes
   useEffect(() => {
     if (data && mapRef.current) {
       mapRef.current.animateToRegion({
@@ -66,16 +42,17 @@ export default function App() {
             coordinate={{
               latitude: data['gt-u7'].latitude,
               longitude: data['gt-u7'].longitude,
-          }}></Marker>
-          )}
+            }}
+          />
+        )}
       </MapView>
 
       {data && (
         <View style={styles.infoPanel}>
           <Text style={styles.mode}>🚶 Monitoring Aktif</Text>
-          <Text style={styles.metric}>❤️ Heart Rate: {data?.max30100.heartrate || '-'} bpm</Text>
-          <Text style={styles.metric}>🩸 SpO2: {data?.max30100.spO2 || '-'} %</Text>
-        </View>  
+          <Text style={styles.metric}>❤️ Heart Rate: {data.max30100.heartrate || '-'} bpm</Text>
+          <Text style={styles.metric}>🩸 SpO2: {data.max30100.spO2 || '-'} %</Text>
+        </View>
       )}
     </View>
   );
@@ -84,7 +61,7 @@ export default function App() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#ffff"
+    backgroundColor: '#ffff',
   },
   map: {
     height: '60%',

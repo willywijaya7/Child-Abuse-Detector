@@ -6,18 +6,7 @@ export interface SensorData {
     heartrate: Float;
     spO2: Float;
   };
-  mpu6050: {
-    gyroscope: {
-      x: Float;
-      y: Float;
-      z: Float;
-    };
-    accelerometer: {
-      x: Float;
-      y: Float;
-      z: Float;
-    };
-  };
+  classification: string;
   'gt-u7': {
     longitude: Float;
     latitude: Float;
