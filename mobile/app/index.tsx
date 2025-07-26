@@ -3,7 +3,8 @@ import { StyleSheet, View, Text, SafeAreaView } from 'react-native';
 import MapView, { Region, PROVIDER_GOOGLE, Marker } from 'react-native-maps';
 import { useSensorData } from './hooks/useSensorData';
 import { initNotificationHandler } from './services/notification';
-import { MaterialCommunityIcons } from '@expo/vector-icons'
+import ActivityIcon from './components/ActivityIcon';
+import { getTimeAgo } from './utils/getTimeAgo';
 
 const INITIAL_REGION: Region = {
   latitude: 0.0,
@@ -50,19 +51,19 @@ export default function App() {
 
       {data && (
         <View style={ styles.infoPanel }>
-          <Text style={ styles.lastUpdated }>Last Updated : <Text style= { styles.timeUpdated }>Just Now</Text>
+          <Text style={ styles.lastUpdated }>Last Updated : <Text style= { styles.timeUpdated }>{getTimeAgo(data?.timestamp)}</Text>
           </Text>
           <View style= { styles.allPanel }>
             <View style= { styles.heartratePanel}>
               <View style= {styles.circlePanel}>
-                <Text style={styles.bigText} >97%</Text>
+                <Text style={styles.bigText} >{data.max30100.spO2 || '-'}%</Text>
               </View>
               <Text style={styles.label}>SpO₂</Text>
             </View>
 
             <View style= { styles.spO2Panel}>
               <View style= {styles.circlePanel}>
-                <Text style={styles.bigText}>97</Text>
+                <Text style={styles.bigText}>{data.max30100.heartrate || '-'}</Text>
                 <Text style={styles.smallText}>bpm</Text>
               </View>
               <Text style={styles.label}>HeartRate</Text>
@@ -71,10 +72,7 @@ export default function App() {
             <View style= { styles.harPanel}>
               <View style= { styles.harBox}>
                 <Text style= { styles.harLabel }>Human Activity Recognition</Text>
-                <View style= { styles.harRow }>
-                  <MaterialCommunityIcons name="run" size={60} color="black" style= {{flex: 1}} />
-                  <Text style= {{ flex: 1, color: 'blue', fontWeight:'bold'}}>Running</Text>
-                </View>
+                <ActivityIcon type={ data?.classification } showLabel={true} />
               </View>
             </View>
           </View>
@@ -143,7 +141,7 @@ const styles = StyleSheet.create({
     color: '#333'
   },
   bigText:{
-    fontSize: 30,
+    fontSize: 26,
     fontWeight: 500,
     color: '#333'
   },
@@ -167,10 +165,4 @@ const styles = StyleSheet.create({
     fontWeight: 500,
     color: '#333'
   },
-  harRow: {
-    flex: 1,
-    flexDirection: 'row',
-    justifyContent: 'center', 
-    alignItems: 'center'
-  }
 });

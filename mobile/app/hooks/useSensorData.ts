@@ -1,8 +1,8 @@
 // hooks/useSensorData.ts
-import { useEffect, useState, useRef } from 'react';
-import { SensorData } from '../types/SensorData';
+import { useEffect, useRef, useState } from 'react';
 import { fetchSensorData } from '../api/sensorApi';
 import { showLocalNotification } from '../services/notification';
+import { SensorData } from '../types/SensorData';
 
 export const useSensorData = () => {
   const [data, setData] = useState<SensorData | null>(null);
@@ -15,7 +15,7 @@ export const useSensorData = () => {
           setData(result);
 
           // Kirim notifikasi jika terjadi JATUH
-          if (result.classification === 'JATUH' && lastClassification.current !== 'JATUH') {
+          if (result.classification === 'falling' && lastClassification.current !== 'JATUH') {
             showLocalNotification('NOTIFIKASI BAHAYA', 'PENGGUNA JATUH');
           }
 
