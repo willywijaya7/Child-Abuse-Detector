@@ -1,8 +1,9 @@
 import React, { useEffect, useRef } from 'react';
-import { StyleSheet, View, Text } from 'react-native';
+import { StyleSheet, View, Text, SafeAreaView } from 'react-native';
 import MapView, { Region, PROVIDER_GOOGLE, Marker } from 'react-native-maps';
 import { useSensorData } from './hooks/useSensorData';
 import { initNotificationHandler } from './services/notification';
+import { MaterialCommunityIcons } from '@expo/vector-icons'
 
 const INITIAL_REGION: Region = {
   latitude: 0.0,
@@ -31,7 +32,7 @@ export default function App() {
   }, [data]);
 
   return (
-    <View style={styles.container}>
+    <SafeAreaView style={styles.container}>
       <MapView
         style={styles.map}
         initialRegion={INITIAL_REGION}
@@ -48,13 +49,38 @@ export default function App() {
       </MapView>
 
       {data && (
-        <View style={styles.infoPanel}>
-          <Text style={styles.mode}>🚶 Monitoring Aktif</Text>
-          <Text style={styles.metric}>❤️ Heart Rate: {data.max30100.heartrate || '-'} bpm</Text>
-          <Text style={styles.metric}>🩸 SpO2: {data.max30100.spO2 || '-'} %</Text>
+        <View style={ styles.infoPanel }>
+          <Text style={ styles.lastUpdated }>Last Updated : <Text style= { styles.timeUpdated }>Just Now</Text>
+          </Text>
+          <View style= { styles.allPanel }>
+            <View style= { styles.heartratePanel}>
+              <View style= {styles.circlePanel}>
+                <Text style={styles.bigText} >97%</Text>
+              </View>
+              <Text style={styles.label}>SpO₂</Text>
+            </View>
+
+            <View style= { styles.spO2Panel}>
+              <View style= {styles.circlePanel}>
+                <Text style={styles.bigText}>97</Text>
+                <Text style={styles.smallText}>bpm</Text>
+              </View>
+              <Text style={styles.label}>HeartRate</Text>
+            </View>
+
+            <View style= { styles.harPanel}>
+              <View style= { styles.harBox}>
+                <Text style= { styles.harLabel }>Human Activity Recognition</Text>
+                <View style= { styles.harRow }>
+                  <MaterialCommunityIcons name="run" size={60} color="black" style= {{flex: 1}} />
+                  <Text style= {{ flex: 1, color: 'blue', fontWeight:'bold'}}>Running</Text>
+                </View>
+              </View>
+            </View>
+          </View>
         </View>
       )}
-    </View>
+    </SafeAreaView>
   );
 }
 
@@ -64,24 +90,87 @@ const styles = StyleSheet.create({
     backgroundColor: '#ffff',
   },
   map: {
-    height: '60%',
+    height: '70%',
     width: '100%',
   },
-  infoPanel: {
-    flex: 1,
-    padding: 20,
-    backgroundColor: '#fff',
+  infoPanel:{
+    flex: 1 ,
+    backgroundColor: '#ffff',
     borderTopLeftRadius: 20,
     borderTopRightRadius: 20,
-    elevation: 5,
+    padding: 20,
   },
-  mode: {
+  lastUpdated: {
     fontSize: 18,
     fontWeight: 'bold',
-    marginBottom: 10,
+    color: '#333'
   },
-  metric: {
+  timeUpdated: {
+    color: 'green',
+    textDecorationLine: 'underline'
+  },
+  allPanel: {
+    flex: 1,
+    flexDirection: 'row',
+  },
+  heartratePanel: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center'
+  },
+  spO2Panel: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center'
+  },
+  circlePanel: {
+    width: 80,
+    height: 80,
+    borderRadius: 40,
+    backgroundColor: '#e0e0e0ff',
+    justifyContent: 'center',
+    alignItems: 'center',
+    elevation: 2,
+  },
+  label: {
     fontSize: 16,
-    marginBottom: 5,
+    fontWeight: 500,
+    color: '#333'
   },
+  smallText: {
+    fontSize: 14,
+    fontWeight: 500,
+    color: '#333'
+  },
+  bigText:{
+    fontSize: 30,
+    fontWeight: 500,
+    color: '#333'
+  },
+  harPanel: {
+    flex: 2,
+    justifyContent: 'center',
+    alignItems: 'center'
+  },
+  harBox: {
+    width: 160,
+    height: 100,
+    borderRadius: 20,
+    backgroundColor: '#e0e0e0ff',
+    justifyContent: 'flex-start',
+    alignItems: 'center',
+    elevation: 2,
+    padding: 10
+  },
+  harLabel:{
+    fontSize: 10,
+    fontWeight: 500,
+    color: '#333'
+  },
+  harRow: {
+    flex: 1,
+    flexDirection: 'row',
+    justifyContent: 'center', 
+    alignItems: 'center'
+  }
 });

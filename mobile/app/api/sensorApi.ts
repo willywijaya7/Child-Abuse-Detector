@@ -1,7 +1,7 @@
 import axios from 'axios';
 import { SensorData } from '../types/SensorData';
 
-const API_URL = 'https://3ab55ccc00c7.ngrok-free.app/datas/';
+const API_URL = 'https://f6048e8ae153.ngrok-free.app/datas/';
 
 export const fetchSensorData = async (): Promise<SensorData> => {
   const response = await axios.get(API_URL);
