@@ -91,16 +91,16 @@ void loop() {
       
       JsonObject gps = doc.createNestedObject("gt-u7");
       if (isnan(hasil.longitude)) {
-  gps["longitude"] = 0;
-} else {
-  gps["longitude"] = hasil.longitude;
-}
+        gps["longitude"] = 0;
+      } else {
+        gps["longitude"] = hasil.longitude;
+      }
 
-if (isnan(hasil.latitude)) {
-  gps["latitude"] = 0;
-} else {
-  gps["latitude"] = hasil.latitude;
-}
+      if (isnan(hasil.latitude)) {
+        gps["latitude"] = 0;
+      } else {
+        gps["latitude"] = hasil.latitude;
+      }
 
       String jsonPayload;
       serializeJson(doc, jsonPayload);

@@ -17,10 +17,13 @@ def dataReceive():
             longitude=dataJson['gt-u7']['longitude'],
             latitude=dataJson['gt-u7']['latitude']
         )
-        with open ("blueprints/data/storage/file.txt", "a") as file:
-            file.write(f"{timestamp},{validated.heartrate},{validated.spO2},{validated.longitude},{validated.latitude}\n")
+        # with open ("blueprints/data/storage/file.txt", "a") as file:
+        #     file.write(f"{timestamp},{validated.heartrate},{validated.spO2},{validated.longitude},{validated.latitude}\n")
+        data = None
+        with open('blueprints/input/latest.txt', 'r') as file:
+            data = file.read()
         with open ("blueprints/data/storage/file2.txt", "a") as file:
-            file.write(f"{validated.mpu6050}\n")
+            file.write(f"{data},{validated.mpu6050}\n")
         return jsonify({
             "status" : "success",
         }),200

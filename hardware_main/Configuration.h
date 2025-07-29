@@ -4,6 +4,7 @@
 extern const char* SSID;
 extern const char* PASSWORD;
 extern const char* SERVER_URL;
+extern const char* SERVER_POST;
 extern const int RXD_SIM;
 extern const int TXD_SIM;
 extern const int RXD_GPS;

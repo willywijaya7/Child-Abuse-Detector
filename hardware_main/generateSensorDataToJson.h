@@ -3,10 +3,7 @@
 #include <Arduino.h>
 
 String generateSensorDataToJson (
-  const String& timestamp,
-  float heartrate, int spO2,
-  float gyroX, float gyroY, float gyroZ,
-  float accX, float accY, float accZ,
+  float heartrate, float spO2, const String& mpu6060, 
   float longitude, float latitude
 );
 

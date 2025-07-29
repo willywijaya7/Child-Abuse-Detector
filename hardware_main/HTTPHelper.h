@@ -2,6 +2,6 @@
 #define HTTPHELPER_H
 #include <Arduino.h>
 
-bool kirimPesanKeServer(const char* serverURL, const String& pesan);
+bool kirimPesanKeServer(const String& serverURL, const String& pesan);
 
 #endif

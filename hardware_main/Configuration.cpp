@@ -1,9 +1,10 @@
 #include "Configuration.h"
 #include <Arduino.h>
 
-const char* SSID = "ftuntan";
-const char* PASSWORD = "Dekan123";
-const char* SERVER_URL = "https://5c95-203-24-50-227.ngrok-free.app/datas/";
+const char* SSID = "POCO X3 Pro";
+const char* PASSWORD = "lalalalala";
+const char* SERVER_URL = "https://0b49d07065b7.ngrok-free.app/";
+const char* SERVER_POST = "https://0b49d07065b7.ngrok-free.app/datas/";
 const int RXD_SIM = 16;
 const int TXD_SIM = 17;
 const int RXD_GPS = 34;

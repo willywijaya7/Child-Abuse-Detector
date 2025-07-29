@@ -2,7 +2,7 @@
 #include <WiFi.h>
 #include <HTTPClient.h>
 
-bool kirimPesanKeServer(const char* serverURL, const String& pesan) {
+bool kirimPesanKeServer(const String& serverURL, const String& pesan) {
   HTTPClient http;
   http.begin(serverURL);
   http.addHeader("Content-Type", "application/json");
