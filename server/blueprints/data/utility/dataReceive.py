@@ -23,7 +23,7 @@ def dataReceive():
         with open('blueprints/input/latest.txt', 'r') as file:
             data = file.read()
         with open ("blueprints/data/storage/file2.txt", "a") as file:
-            file.write(f"{data},{validated.mpu6050}\n")
+            file.write(f"{timestamp},{data},{validated.mpu6050}\n")
         return jsonify({
             "status" : "success",
         }),200

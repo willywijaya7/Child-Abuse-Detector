@@ -3,8 +3,8 @@
 
 const char* SSID = "POCO X3 Pro";
 const char* PASSWORD = "lalalalala";
-const char* SERVER_URL = "https://0b49d07065b7.ngrok-free.app/";
-const char* SERVER_POST = "https://0b49d07065b7.ngrok-free.app/datas/";
+const char* SERVER_URL = "https://417418a7ef08.ngrok-free.app";
+const char* SERVER_POST = "https://417418a7ef08.ngrok-free.app/datas/";
 const int RXD_SIM = 16;
 const int TXD_SIM = 17;
 const int RXD_GPS = 34;

@@ -42,49 +42,50 @@ void setup() {
     while (1);
   }
   Serial.println("MPU6050 connected");
+
+  
 }
 
 void loop() 
 {
-  if (wifi.isConnected()) 
+  unsigned long now = millis();
+  if (now - lastSampleTime >= sampleInterval) 
   {
-    unsigned long now = millis();
-    if (now - lastSampleTime >= sampleInterval) 
+    lastSampleTime = now;
+
+    sensors_event_t a, g, temp;
+    mpu.getEvent(&a, &g, &temp);
+
+    flattenedMPU += String(a.acceleration.x, 3) + "," +
+                    String(a.acceleration.y, 3) + "," +
+                    String(a.acceleration.z, 3) + "," +
+                    String(g.gyro.x, 3) + "," +
+                    String(g.gyro.y, 3) + "," +
+                    String(g.gyro.z, 3);
+
+    sampleCount++;
+
+    if (sampleCount < samplesPerBatch) 
     {
-      lastSampleTime = now;
+      flattenedMPU += ",";
+    }
 
-      sensors_event_t a, g, temp;
-      mpu.getEvent(&a, &g, &temp);
-
-      flattenedMPU += String(a.acceleration.x, 3) + "," +
-                      String(a.acceleration.y, 3) + "," +
-                      String(a.acceleration.z, 3) + "," +
-                      String(g.gyro.x, 3) + "," +
-                      String(g.gyro.y, 3) + "," +
-                      String(g.gyro.z, 3);
-
-      sampleCount++;
-
-      if (sampleCount < samplesPerBatch) 
-      {
-        flattenedMPU += ",";
+    // Setelah 20 sampel (1 detik)
+    if (sampleCount >= samplesPerBatch) 
+    {
+      const String& PESAN = generateSensorDataToJson(
+        93.3, 97,              // HR, SpO2
+        flattenedMPU,
+        110.123456, -7.123456  // GPS lon, lat
+      );
+      bool sukses = kirimPesanKeServer(SERVER_POST, PESAN);
+      if (sukses) {
+        Serial.println("Pesan berhasil dikirim.");
+      } else {
+        Serial.println("Gagal mengirim pesan.");
       }
-
-      // Setelah 20 sampel (1 detik)
-      if (sampleCount >= samplesPerBatch) 
-      {
-        const String& PESAN = generateSensorDataToJson(
-          93.3, 97,              // HR, SpO2
-          flattenedMPU,
-          110.123456, -7.123456  // GPS lon, lat
-        );
-        bool sukses = kirimPesanKeServer(SERVER_POST, PESAN);
-        if (sukses) {
-          Serial.println("Pesan berhasil dikirim.");
-        } else {
-          Serial.println("Gagal mengirim pesan.");
-        }
-      }
+      flattenedMPU = "";
+      sampleCount = 0;
     }
   }
 }
