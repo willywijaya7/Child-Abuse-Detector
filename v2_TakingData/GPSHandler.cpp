@@ -1,22 +1,24 @@
 #include "GPSHandler.h"
 #include <TinyGPSPlus.h>
-#include <SoftwareSerial.h>
+#include <HardwareSerial.h>
 
-#define RXD_GPS 34
-#define TXD_GPS 35
+#define RXD2 34  // GPS TX ke GPIO34
+#define TXD2 35  // GPS RX ke GPIO35 (biasanya tidak dipakai)
 
+HardwareSerial gpsSerial(1);  // UART1 (0 = USB, 1 & 2 bisa kita pakai)
 TinyGPSPlus gps;
-SoftwareSerial gpsSerial(RXD_GPS, TXD_GPS);
 
 void initGPS() {
-  gpsSerial.begin(9600);
+  gpsSerial.begin(9600, SERIAL_8N1, RXD2, TXD2);
 }
 
 GPSData getGPSData() {
   GPSData result = {NAN, NAN};
   unsigned long start = millis();
   while (millis() - start < 3000) {
-    while (gpsSerial.available()) gps.encode(gpsSerial.read());
+    while (gpsSerial.available()) {
+      gps.encode(gpsSerial.read());
+    }
   }
 
   if (gps.location.isValid()) {

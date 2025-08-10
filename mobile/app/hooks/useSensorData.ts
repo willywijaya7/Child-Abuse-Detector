@@ -1,6 +1,6 @@
 // hooks/useSensorData.ts
 import { useEffect, useRef, useState } from 'react';
-import { fetchSensorData } from '../api/sensorApi';
+import fetchSensorData from '../api/sensorApi';
 import { showLocalNotification } from '../services/notification';
 import { SensorData } from '../types/SensorData';
 
